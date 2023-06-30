@@ -1,0 +1,4 @@
+#!/bin/sh
+dir=$(readlink -e /proc/$(pgrep -P "$(xdo pid)" | head -n 1)/cwd)
+[ -z "$dir" ] && dir=$HOME
+st -d ${dir}

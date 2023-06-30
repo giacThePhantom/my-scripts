@@ -1,0 +1,9 @@
+#!/bin/sh
+
+RES=$(printf "Poweroff\nReboot\nCancel" | dmenu -l 3 -c)
+
+case $RES in
+	"Poweroff") systemctl poweroff;;
+	"Reboot") systemctl reboot;;
+	*) notify-send "Operation cancelled";;
+esac

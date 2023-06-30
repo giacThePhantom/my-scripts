@@ -1,0 +1,5 @@
+#!/bin/sh
+
+sudo ip link set enp2s0 down
+sudo ip link set enp2s0 mode default
+sudo netctl start ethernet-dhcp

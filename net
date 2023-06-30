@@ -1,0 +1,36 @@
+#!/bin/sh
+
+connect_net(){
+	echo "$2" | sudo -S netctl start $1
+
+	while [ "$(netctl status $1 | grep "Active" | sed 's/.*\((.*)\).*/\1/g')" = "(running)" ]
+	do
+		sleep 0.5
+	done
+
+	case $(netctl status $1 | grep "Active" | sed 's/.*\((.*)\).*/\1/g') in
+		"(exited)") notify-send "connected";;
+		*) notify-send -u critical "not connected";;
+	esac
+}
+
+connect_eth(){
+	echo "$2" | sudo -S ip link set enp2s0 down
+	echo "$2" | sudo -S ip link set enp2s0 mode default
+	connect_net $1 $2
+}
+
+net=$(netctl list | sed 's/^[\* ] //g'| dmenu -c -l 4)
+
+if [ -z $net ]; then
+	notify-send -u critica "Network not selected"
+	exit 1
+fi
+
+psw=$(dmenu -P -c)
+
+
+case $net in
+	"ethernet-dhcp") connect_eth $net $psw;;
+	*) connect_net $net $psw;;
+esac

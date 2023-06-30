@@ -1,0 +1,6 @@
+#!/bin/sh
+dir="$(awk -F '|' '{print $1"\t"(10000*$2*(3.75/((0.0001*(TIME-$3)+1)+0.25)))}' ~/.z | sort -t't' -n -k2 | awk '{print $1}' |  dmenu -c -l 30 -i)"
+[ -z "$dir" ] && dir=$(readlink -e /proc/$(pgrep -P "$(xdo pid)" | head -n 1)/cwd)
+[ -z "$dir" ] && dir=$HOME
+
+st -d ${dir}

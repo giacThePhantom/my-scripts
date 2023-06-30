@@ -1,0 +1,5 @@
+#!/bin/sh
+
+mailsync &
+export EDITOR="/usr/bin/nvim"
+st -e neomutt

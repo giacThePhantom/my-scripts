@@ -1,0 +1,4 @@
+#!/bin/sh
+
+git config user.email "giacomo.fantoni@studenti.unitn.it"
+git config user.name "giacThePhantom"
